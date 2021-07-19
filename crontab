@@ -1,0 +1,4 @@
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# m h dom m dow user
+* * * * * root /upload.sh >/proc/1/fd/1 2>/proc/1/fd/2

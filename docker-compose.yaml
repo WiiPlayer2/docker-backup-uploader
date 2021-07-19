@@ -1,0 +1,9 @@
+version: "3"
+services:
+  backup-uploader:
+    build: ./
+    environment:
+      - TZ
+    volumes:
+      - ./config:/config
+      - ./backups:/backups
