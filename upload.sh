@@ -12,6 +12,12 @@ fi
 touch $LOCK_FILE
 
 echo "`date` - Starting sync..."
-# rclone sync "$BACKUPS_FOLDER" "$REMOTE_NAME:/" --progress --dry-run
+[[ "$HOT" == "1" ]] \
+    && DRY_RUN_FLAG="" \
+    || DRY_RUN_FLAG="--dry-run"
+
+set -x
+rclone sync "$BACKUPS_FOLDER" "$REMOTE_NAME:$REMOTE_PATH" --log-level INFO --stats-one-line-date $DRY_RUN_FLAG
+{ set +x; } 2>/dev/null
 
 rm -f $LOCK_FILE

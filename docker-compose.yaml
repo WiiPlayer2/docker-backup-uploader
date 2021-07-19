@@ -4,6 +4,8 @@ services:
     build: ./
     environment:
       - TZ
+      - REMOTE_PATH
+      - HOT
     volumes:
       - ./config:/config
       - ./backups:/backups
