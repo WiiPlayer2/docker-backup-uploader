@@ -11,11 +11,16 @@ if [ -e "$LOCK_FILE" ]; then
 fi
 touch $LOCK_FILE
 
-echo "`date` - Starting sync..."
 [[ "$HOT" == "1" ]] \
     && DRY_RUN_FLAG="" \
     || DRY_RUN_FLAG="--dry-run"
 
+echo "`date` - Rotate backups..."
+set -x
+rotate-backups --daily 3 --weekly 3 --monthly 3 --relaxed --prefer-recent $DRY_RUN_FLAG "$BACKUPS_FOLDER"
+{ set +x; } 2>/dev/null
+
+echo "`date` - Starting sync..."
 set -x
 rclone sync "$BACKUPS_FOLDER" "$REMOTE_NAME:$REMOTE_PATH" --log-level INFO --stats-one-line-date $DRY_RUN_FLAG
 { set +x; } 2>/dev/null
