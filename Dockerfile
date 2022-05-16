@@ -15,6 +15,7 @@ ENV REMOTE_NAME="remote"
 ENV REMOTE_TYPE="dropbox"
 ENV REMOTE_PATH="/backups"
 ENV HOT="0"
+ENV NO_SYNC="0"
 
 COPY crontab /etc/cron.d/uploader
 COPY run.sh /run.sh
