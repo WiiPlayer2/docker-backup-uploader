@@ -1,28 +1,23 @@
-pipeline {
-    agent {
-        label 'docker'
-    }
+node('docker')
+{
+    checkout scm;
 
-    environment {
-        IMAGE = "backup-uploader"
-        REGISTRY = "registry.dark-link.info"
-        CREDENTIALS_ID = "vserver-container-registry"
-    }
+    def dockerBuild = load "ci/jenkins/dockerBuild.groovy";
+    def causes = load "ci/jenkins/buildCauses.groovy";
+    def gitFlow = load "ci/jenkins/gitFlow.groovy";
 
-    stages {
-        stage('Build') {
-            steps {
-                sh "docker build -t ${IMAGE}:latest --pull ."
-            }
-        }
+    def project = dockerBuild.prepare([
+        imageName: 'backup-uploader',
+        tag: 'latest',
+        registry: 'registry.dark-link.info',
+        registryCredentials: 'vserver-container-registry',
+        dockerfile: './Dockerfile',
+        platforms: [
+            'linux/amd64',
+            'linux/arm64',
+            'linux/arm/v7',
+        ],
+    ]);
 
-        stage('Publish') {
-            steps {
-                withDockerRegistry([credentialsId: "${CREDENTIALS_ID}", url: "https://${REGISTRY}/"]) {
-                    sh "docker tag ${IMAGE}:latest ${REGISTRY}/${IMAGE}:latest"
-                    sh "docker image push ${REGISTRY}/${IMAGE}:latest"
-                }
-            }
-        }
-    }
+    dockerBuild.buildAndPublish(project);
 }
