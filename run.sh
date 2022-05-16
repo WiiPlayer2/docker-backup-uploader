@@ -14,4 +14,4 @@ if [ ! -f "$CONFIG_FILE" ]; then
 fi
 
 env >> /etc/environment
-cron -f -l 2
+cron -f

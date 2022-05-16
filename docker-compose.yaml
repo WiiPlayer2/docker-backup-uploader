@@ -6,6 +6,7 @@ services:
       - TZ
       - REMOTE_PATH
       - HOT
+      - NO_SYNC
     volumes:
       - ./config:/config
       - ./backups:/backups

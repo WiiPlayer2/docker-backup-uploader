@@ -20,7 +20,7 @@ set -x
 rotate-backups --daily 3 --weekly 3 --monthly 3 --relaxed --prefer-recent $DRY_RUN_FLAG "$BACKUPS_FOLDER"
 { set +x; } 2>/dev/null
 
-if [[ "$NO_SYNC" == "0" ]]
+if [[ "$NO_SYNC" == "0" ]]; then
     echo "`date` - Starting sync..."
     set -x
     rclone sync "$BACKUPS_FOLDER" "$REMOTE_NAME:$REMOTE_PATH" --log-level INFO --stats-one-line-date $DRY_RUN_FLAG

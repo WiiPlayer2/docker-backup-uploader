@@ -22,6 +22,7 @@ COPY run.sh /run.sh
 COPY upload.sh /upload.sh
 
 RUN chmod 0744 /upload.sh \
-    && chmod 0744 /run.sh
+    && chmod 0744 /run.sh \
+    && chmod 0644 /etc/cron.d/uploader
 
 ENTRYPOINT /run.sh
