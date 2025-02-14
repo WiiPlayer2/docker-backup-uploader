@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.11
 ENV TZ=UTC
 ENV DEBIAN_FRONTEND=noninteractive
 
