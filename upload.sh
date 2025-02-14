@@ -17,7 +17,11 @@ touch $LOCK_FILE
 
 echo "`date` - Rotate backups..."
 set -x
-rotate-backups --daily 3 --weekly 3 --monthly 3 --relaxed --prefer-recent $DRY_RUN_FLAG "$BACKUPS_FOLDER"
+rotate-backups \
+    --daily ${RETENTION_DAILY:-2} \
+    --weekly ${RETENTION_WEEKLY:-2} \
+    --monthly ${RETENTION_MONTHLY:-2} \
+    --relaxed --prefer-recent $DRY_RUN_FLAG "$BACKUPS_FOLDER"
 { set +x; } 2>/dev/null
 
 if [[ "$NO_SYNC" == "0" ]]; then
